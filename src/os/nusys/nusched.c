@@ -122,6 +122,7 @@ void nuScExecuteGraphics(void) {
 
     while (TRUE) {
         osRecvMesg(&nusched.graphicsRequestMQ, (OSMesg *) &gfxTask, OS_MESG_BLOCK);
+
         if(nuScPreNMIFlag & NU_SC_BEFORE_RESET){
             osSendMesg(gfxTask->msgQ, (OSMesg*) gfxTask, OS_MESG_BLOCK);
             continue;
@@ -154,6 +155,7 @@ void nuScExecuteGraphics(void) {
         if (!(gfxTask->flags & NU_SC_NORDP)) {
             osRecvMesg(&nusched.rdpMQ, &msg, OS_MESG_BLOCK);
         }
+
         osSendMesg(gfxTask->msgQ, (OSMesg*) gfxTask, OS_MESG_BLOCK);
     }
 }

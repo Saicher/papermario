@@ -155,10 +155,10 @@ void action_update_run(void) {
     }
 
     D_8010C980++;
-    runSpeedModifier = 1.0f;
+    runSpeedModifier = 0.5f;
 
     if (playerStatus->animFlags & PA_FLAG_SPINNING) {
-        runSpeedModifier = 1.5f;
+        runSpeedModifier = 0.75f;
     }
 
     playerStatus->curSpeed = playerStatus->runSpeed * runSpeedModifier;

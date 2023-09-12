@@ -335,7 +335,7 @@ ApiStatus _npc_jump_to(Evt* script, s32 isInitialCall, s32 snapYaw) {
 
         npc->flags |= NPC_FLAG_JUMPING;
         npc->jumpVel = (npc->jumpScale * npc->duration * 0.5f) + (goalY / npc->duration);
-        script->functionTemp[0] =1;
+        script->functionTemp[0] = 1;
     }
 
     npc = script->functionTempPtr[1];

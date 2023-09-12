@@ -185,10 +185,10 @@ void gfxRetrace_Callback(s32 arg0) {
             gfx_task_main();
         }
     } else {
-        D_80073E0A ^= 1;
+        //D_80073E0A ^= 1; //Game's logic still runs at 30fps.
         if (D_80073E0A == 0) {
             step_game_loop();
-            D_80073E08 = 1;
+            //D_80073E08 = 1;
 
             if (arg0 < 3) {
                 D_80073E08 = 0;

@@ -3,7 +3,9 @@
 
 s32 gStaticScriptCounter = 1;
 s32 gIsUpdatingScripts = 0;
-f32 gGlobalTimeSpace = 1.0f;
+f32 gGlobalTimeSpace = 0.5f;
+
+static s32 toggleFrame = 0;
 
 // script_list
 BSS u32* gMapFlags;
@@ -521,7 +523,7 @@ Evt* func_802C3C10(Evt* script, Bytecode* line, s32 arg2) {
     script->curOpcode = EVT_OP_INTERNAL_FETCH;
     script->frameCounter = 0;
     script->stateFlags |= arg2;
-    script->timeScale = 1.0f;
+    script->timeScale = 0.5f;
 
     if (script->userData != NULL) {
         heap_free(script->userData);
@@ -563,7 +565,7 @@ Evt* restart_script(Evt* script) {
 
     script->ptrNextLine = ptrFirstLine;
     script->ptrCurLine = ptrFirstLine;
-    script->timeScale = 1.0f;
+    script->timeScale = 0.5f;
     script->frameCounter = 0;
     script->unk_158 = 0;
 
@@ -576,9 +578,13 @@ Evt* restart_script(Evt* script) {
 }
 
 void update_scripts(void) {
+    //toggleFrame = !toggleFrame;
+    //if (toggleFrame) {
+        //return; // Only run every other frame (30FPS)
+    //}
+
     if (gGameStatusPtr->disableScripts != TRUE) {
         s32 i;
-
         gIsUpdatingScripts = TRUE;
         sort_scripts();
 
@@ -593,16 +599,16 @@ void update_scripts(void) {
                 s32 stop = FALSE;
                 s32 status;
 
-                script->frameCounter += script->timeScale;
+                script->frameCounter += (script->timeScale);
 
                 do {
-                    if (script->frameCounter < 1.0) {
+                    if (script->frameCounter < 1) {
                         // Continue to next script
                         do {} while (0); // TODO required to match
                         break;
                     };
 
-                    script->frameCounter -= 1.0;
+                    script->frameCounter -= (1);
                     status = evt_execute_next_command(script);
                     if (status == EVT_CMD_RESULT_ERROR) {
                         stop = TRUE;

@@ -144,7 +144,7 @@ s32 create_npc_impl(NpcBlueprint* blueprint, AnimID* animList, s32 isPeachNpc) {
     npc->scale.y = 1.0f;
     npc->scale.z = 1.0f;
     npc->curAnim = blueprint->initialAnim;
-    npc->animationSpeed = 1.0f;
+    npc->animationSpeed = 0.5f;
     npc->renderYaw = 0.0f;
     npc->imgfxType = IMGFX_CLEAR;
     npc->imgfxFlags = 0;

@@ -97,7 +97,7 @@ ApiStatus SetPlayerCollisionSize(Evt* script, s32 isInitialCall) {
 ApiStatus SetPlayerSpeed(Evt* script, s32 isInitialCall) {
     Bytecode* args = script->ptrReadPos;
 
-    playerNpc->moveSpeed = evt_get_float_variable(script, *args++);
+    playerNpc->moveSpeed = evt_get_float_variable(script, *args++) * 0.5;
     return ApiStatus_DONE2;
 }
 
@@ -131,7 +131,7 @@ ApiStatus SetPlayerActionState(Evt* script, s32 isInitialCall) {
 ApiStatus SetPlayerAnimationSpeed(Evt* script, s32 isInitialCall) {
     Bytecode* args = script->ptrReadPos;
 
-    playerNpc->animationSpeed = evt_get_float_variable(script, *args++);
+    playerNpc->animationSpeed = evt_get_float_variable(script, *args++) * 0.5;
     return ApiStatus_DONE2;
 }
 
@@ -154,7 +154,7 @@ ApiStatus PlayerMoveTo(Evt* script, s32 isInitialCall) {
         } else {
             moveSpeed = dist2D(playerStatus->pos.x, playerStatus->pos.z, targetX, targetZ) / script->functionTemp[0];
         }
-        move_player(script->functionTemp[0], playerStatus->targetYaw, moveSpeed);
+        move_player(script->functionTemp[0] * 2, playerStatus->targetYaw, moveSpeed * 0.5);
     }
 
     // functionTemp 0 is the time left
@@ -175,10 +175,10 @@ ApiStatus func_802D1270(Evt* script, s32 isInitialCall) {
 
         playerStatus->targetYaw = atan2(playerStatus->pos.x, playerStatus->pos.z, targetX, targetZ);
         dist = dist2D(playerStatus->pos.x, playerStatus->pos.z, targetX, targetZ);
-        script->functionTemp[0] = dist / var3;
+        script->functionTemp[0] = (dist / var3);
         moveSpeed = dist / script->functionTemp[0];
 
-        move_player(script->functionTemp[0], playerStatus->targetYaw, moveSpeed);
+        move_player(script->functionTemp[0] * 2, playerStatus->targetYaw, moveSpeed * 0.5);
     }
 
     // functionTemp 0 is the time left
@@ -206,7 +206,7 @@ ApiStatus func_802D1380(Evt* script, s32 isInitialCall) {
             }
         }
 
-        move_player(playerNpc->duration, playerStatus->targetYaw, playerNpc->moveSpeed);
+        move_player(playerNpc->duration * 2, playerStatus->targetYaw, playerNpc->moveSpeed * 0.5);
     }
 
     return ApiStatus_DONE1;
@@ -275,7 +275,7 @@ s32 player_jump(Evt* script, s32 isInitialCall, s32 mode) {
         script->functionTemp[0] = 1;
     }
 
-    npc_move_heading(playerNpc, playerNpc->moveSpeed, playerNpc->yaw);
+    npc_move_heading(playerNpc, playerNpc->moveSpeed * 0.5, playerNpc->yaw);
     playerNpc->pos.y += playerNpc->jumpVel;
     jumpVel = playerNpc->jumpVel; // TODO: temp needed and used specifically only once below for this to match
     playerNpc->jumpVel -= playerNpc->jumpScale;
